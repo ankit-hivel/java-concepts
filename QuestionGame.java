@@ -1,3 +1,6 @@
+import java.util.Objects;
+import java.util.Scanner;
+
 class Question {
     private int id;
     private String question;
@@ -47,7 +50,8 @@ class Question {
 }
 
 public class QuestionGame {
-    public static void showQuestions(Question[] questions){
+    public static int playQuiz(Question[] questions){
+        int score = 0;
         for(Question ques: questions){
             System.out.printf("Id: %d\n", ques.getId());
             System.out.printf("Question: %s\n", ques.getQuestion());
@@ -55,15 +59,25 @@ public class QuestionGame {
             System.out.printf("Option 2: %s\n", ques.getOpt2());
             System.out.printf("Option 3: %s\n", ques.getOpt3());
             System.out.printf("Option 4: %s\n", ques.getOpt4());
+            System.out.print("\nYour answer -> ");
+            Scanner scn = new Scanner(System.in);
             System.out.println();
+            String userAnswer = scn.next();
+            String actualAnswer = ques.getAns();
+            if (Objects.equals(userAnswer, actualAnswer)){
+                score++;
+            }
         }
+
+        return score;
     }
 
     public static void main(String[] args) {
         Question[] questions = new Question[2];
-        questions[0] = new Question(1, "2 + 2", new String[]{"2", "0", "4", "1"}, "4");
-        questions[1] = new Question(2, "3 * 3", new String[]{"6", "9", "4", "3"}, "9");
+        questions[0] = new Question(1, "2 + 2", new String[]{"2", "0", "4", "1"}, "3");
+        questions[1] = new Question(2, "3 * 3", new String[]{"6", "9", "4", "3"}, "2");
 
-        showQuestions(questions);
+        int userScore = playQuiz(questions);
+        System.out.printf("User score: %d", userScore);
     }
 }
